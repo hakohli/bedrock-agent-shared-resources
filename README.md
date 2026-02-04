@@ -136,7 +136,8 @@ aws sts get-caller-identity
 ### Step 1: Clone or Download Demo Files
 
 ```bash
-cd /path/to/bedrock-agent-demo
+git clone https://github.com/hakohli/bedrock-agent-shared-resources.git
+cd bedrock-agent-shared-resources
 ```
 
 ### Step 2: Review Configuration Files
@@ -251,7 +252,7 @@ aws iam get-policy --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgent
 Before deploying, verify you have the correct permissions:
 
 ```bash
-cd /path/to/bedrock-agent-demo
+cd bedrock-agent-shared-resources
 python3 verify_permissions.py
 ```
 
