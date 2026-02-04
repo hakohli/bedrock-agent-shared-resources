@@ -60,7 +60,7 @@ Organizations often face these challenges with Bedrock agents:
                               │
                               ▼
         ┌─────────────────────────────────────────┐
-        │  Shared Resources (Account 395102750341) │
+        │  Shared Resources (Account YOUR_ACCOUNT_ID) │
         ├─────────────────────────────────────────┤
         │  • ECR: bedrock-agents                  │
         │  • S3: company-bedrock-agents           │
@@ -90,7 +90,7 @@ Organizations often face these challenges with Bedrock agents:
 
 ### AWS Account Requirements
 
-- **AWS Account ID**: 395102750341
+- **AWS Account ID**: YOUR_ACCOUNT_ID
 - **Region**: us-east-1 (or your preferred region)
 - **Bedrock Access**: Enabled in your account
 - **Model Access**: Anthropic Claude 3 Sonnet enabled
@@ -156,7 +156,7 @@ cd /Users/hakohli/bedrock-agent-demo
 
 ```bash
 export AWS_REGION="us-east-1"
-export AWS_ACCOUNT_ID="395102750341"
+export AWS_ACCOUNT_ID="YOUR_ACCOUNT_ID"
 export APPROVED_ECR_REPO="bedrock-agents"
 export SHARED_S3_BUCKET="company-bedrock-agents"
 ```
@@ -164,7 +164,7 @@ export SHARED_S3_BUCKET="company-bedrock-agents"
 **Optional**: Add to `~/.bashrc` or `~/.zshrc` for persistence:
 ```bash
 echo 'export AWS_REGION="us-east-1"' >> ~/.bashrc
-echo 'export AWS_ACCOUNT_ID="395102750341"' >> ~/.bashrc
+echo 'export AWS_ACCOUNT_ID="YOUR_ACCOUNT_ID"' >> ~/.bashrc
 echo 'export APPROVED_ECR_REPO="bedrock-agents"' >> ~/.bashrc
 echo 'export SHARED_S3_BUCKET="company-bedrock-agents"' >> ~/.bashrc
 source ~/.bashrc
@@ -182,7 +182,7 @@ chmod +x setup_infrastructure.sh
 1. **ECR Repository**: `bedrock-agents`
    - Image scanning enabled
    - AES256 encryption
-   - Repository URI: `395102750341.dkr.ecr.us-east-1.amazonaws.com/bedrock-agents`
+   - Repository URI: `YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/bedrock-agents`
 
 2. **S3 Bucket**: `company-bedrock-agents`
    - Versioning enabled
@@ -207,17 +207,17 @@ Attach the policy to developer users or groups:
 # For individual user
 aws iam attach-user-policy \
   --user-name developer-username \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 
 # For developer group
 aws iam attach-group-policy \
   --group-name developers \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 
 # For IAM role (if using role-based access)
 aws iam attach-role-policy \
   --role-name DeveloperRole \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 ```
 
 ### Step 6: Verify Infrastructure
@@ -233,7 +233,7 @@ aws s3 ls s3://company-bedrock-agents/
 aws iam get-role --role-name BedrockAgentExecutionRole
 
 # Check IAM policy
-aws iam get-policy --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+aws iam get-policy --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 ```
 
 **✅ Infrastructure setup complete!**
@@ -305,12 +305,12 @@ Bedrock Agent Deployment Demo
 Using Existing ECR and S3 Resources
 ============================================================
 Creating agent: baseball-video-analyzer
-Using execution role: arn:aws:iam::395102750341:role/BedrockAgentExecutionRole
+Using execution role: arn:aws:iam::YOUR_ACCOUNT_ID:role/BedrockAgentExecutionRole
 Using S3 bucket: company-bedrock-agents
 
 ✓ Agent created successfully!
   Agent ID: R9ORLA8SGF
-  Agent ARN: arn:aws:bedrock:us-east-1:395102750341:agent/R9ORLA8SGF
+  Agent ARN: arn:aws:bedrock:us-east-1:YOUR_ACCOUNT_ID:agent/R9ORLA8SGF
 
 ✓ Agent prepared successfully!
   Status: PREPARED
@@ -332,7 +332,7 @@ The `deployment_info.json` file contains:
   "alias_id": "5DRROVGWEI",
   "agent_name": "baseball-video-analyzer",
   "region": "us-east-1",
-  "account_id": "395102750341",
+  "account_id": "YOUR_ACCOUNT_ID",
   "s3_bucket": "company-bedrock-agents"
 }
 ```
@@ -439,11 +439,11 @@ python3 cleanup.py
 # Delete IAM policy attachments
 aws iam detach-user-policy \
   --user-name developer-username \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 
 # Delete IAM policy
 aws iam delete-policy \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 
 # Delete IAM role policies
 aws iam detach-role-policy \

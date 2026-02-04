@@ -2,7 +2,7 @@
 # Tag existing resources with auto-delete: no
 
 AWS_REGION="us-east-1"
-AWS_ACCOUNT_ID="395102750341"
+AWS_ACCOUNT_ID="YOUR_ACCOUNT_ID"
 ECR_REPO_NAME="bedrock-agents"
 S3_BUCKET_NAME="company-bedrock-agents"
 

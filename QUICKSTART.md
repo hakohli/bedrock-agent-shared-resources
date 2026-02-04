@@ -6,7 +6,7 @@
    ```bash
    cd bedrock-agent-demo
    export AWS_REGION="us-east-1"
-   export AWS_ACCOUNT_ID="395102750341"
+   export AWS_ACCOUNT_ID="YOUR_ACCOUNT_ID"
    ./setup_infrastructure.sh
    ```
 
@@ -14,7 +14,7 @@
    ```bash
    aws iam attach-user-policy \
      --user-name <developer-name> \
-     --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+     --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
    ```
 
 ## For Developers

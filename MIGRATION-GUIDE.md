@@ -37,7 +37,7 @@ agent = bedrock.create_agent(
 **After** (uses existing resources):
 ```python
 # Set environment variables
-AWS_ACCOUNT_ID = '395102750341'
+AWS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID'
 AWS_REGION = 'us-east-1'
 SHARED_S3_BUCKET = 'company-bedrock-agents'
 AGENT_EXECUTION_ROLE = f'arn:aws:iam::{AWS_ACCOUNT_ID}:role/BedrockAgentExecutionRole'
@@ -128,7 +128,7 @@ bedrock = boto3.client('bedrock-agent', region_name='us-east-1')
 
 response = bedrock.create_agent(
     agentName='your-agent-name',
-    agentResourceRoleArn='arn:aws:iam::395102750341:role/BedrockAgentExecutionRole',
+    agentResourceRoleArn='arn:aws:iam::YOUR_ACCOUNT_ID:role/BedrockAgentExecutionRole',
     description='Your agent description',
     foundationModel='anthropic.claude-3-sonnet-20240229-v1:0',
     instruction='Your agent instructions',
@@ -184,7 +184,7 @@ import os
 
 # AWS Configuration
 AWS_REGION = 'us-east-1'
-AWS_ACCOUNT_ID = '395102750341'
+AWS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID'
 
 # Shared Resources
 APPROVED_ECR_REPO = 'bedrock-agents'

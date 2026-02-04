@@ -23,7 +23,7 @@ This guide walks through the complete demo showing how to use existing ECR/S3 re
 
 ```bash
 export AWS_REGION="us-east-1"
-export AWS_ACCOUNT_ID="395102750341"
+export AWS_ACCOUNT_ID="YOUR_ACCOUNT_ID"
 export APPROVED_ECR_REPO="bedrock-agents"
 export SHARED_S3_BUCKET="company-bedrock-agents"
 ```
@@ -46,12 +46,12 @@ This creates:
 # For a specific user
 aws iam attach-user-policy \
   --user-name developer-username \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 
 # Or for a group
 aws iam attach-group-policy \
   --group-name developers \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 ```
 
 ---
@@ -84,12 +84,12 @@ python deploy_agent.py
 Expected output:
 ```
 Creating agent: baseball-video-analyzer
-Using execution role: arn:aws:iam::395102750341:role/BedrockAgentExecutionRole
+Using execution role: arn:aws:iam::YOUR_ACCOUNT_ID:role/BedrockAgentExecutionRole
 Using S3 bucket: company-bedrock-agents
 
 ✓ Agent created successfully!
   Agent ID: ABCD1234
-  Agent ARN: arn:aws:bedrock:us-east-1:395102750341:agent/ABCD1234
+  Agent ARN: arn:aws:bedrock:us-east-1:YOUR_ACCOUNT_ID:agent/ABCD1234
 
 ✓ Agent prepared successfully!
   Status: PREPARED
@@ -179,7 +179,7 @@ bedrock.create_agent_action_group(
     agentVersion='DRAFT',
     actionGroupName='video-processor',
     actionGroupExecutor={
-        'lambda': 'arn:aws:lambda:us-east-1:395102750341:function:bedrock-agent-video-processor'
+        'lambda': 'arn:aws:lambda:us-east-1:YOUR_ACCOUNT_ID:function:bedrock-agent-video-processor'
     },
     apiSchema={
         'payload': json.dumps({

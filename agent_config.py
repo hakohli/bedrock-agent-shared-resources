@@ -2,7 +2,7 @@ import os
 
 # AWS Configuration
 AWS_REGION = os.environ.get('AWS_REGION', 'us-east-1')
-AWS_ACCOUNT_ID = '395102750341'
+AWS_ACCOUNT_ID = 'YOUR_ACCOUNT_ID'
 
 # Pre-approved Resources (managed by infrastructure team)
 APPROVED_ECR_REPO = os.environ.get('APPROVED_ECR_REPO', 'bedrock-agents')

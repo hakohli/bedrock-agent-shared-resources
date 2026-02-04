@@ -59,7 +59,7 @@ Check tags on all resources:
 ```bash
 # ECR
 aws ecr list-tags-for-resource \
-  --resource-arn arn:aws:ecr:us-east-1:395102750341:repository/bedrock-agents
+  --resource-arn arn:aws:ecr:us-east-1:YOUR_ACCOUNT_ID:repository/bedrock-agents
 
 # S3
 aws s3api get-bucket-tagging --bucket company-bedrock-agents
@@ -69,11 +69,11 @@ aws iam list-role-tags --role-name BedrockAgentExecutionRole
 
 # IAM Policy
 aws iam list-policy-tags \
-  --policy-arn arn:aws:iam::395102750341:policy/BedrockAgentDeveloperPolicy
+  --policy-arn arn:aws:iam::YOUR_ACCOUNT_ID:policy/BedrockAgentDeveloperPolicy
 
 # Bedrock Agent
 aws bedrock-agent list-tags-for-resource \
-  --resource-arn arn:aws:bedrock:us-east-1:395102750341:agent/R9ORLA8SGF
+  --resource-arn arn:aws:bedrock:us-east-1:YOUR_ACCOUNT_ID:agent/R9ORLA8SGF
 ```
 
 ## Purpose
