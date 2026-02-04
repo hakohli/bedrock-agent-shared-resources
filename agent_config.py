@@ -13,13 +13,15 @@ AGENT_EXECUTION_ROLE = f"arn:aws:iam::{AWS_ACCOUNT_ID}:role/BedrockAgentExecutio
 
 # Agent Configuration
 AGENT_CONFIG = {
-    'agent_name': 'baseball-video-analyzer',
-    'description': 'Analyzes baseball videos to extract game insights',
-    'instruction': '''You are a baseball video analysis assistant. You help users analyze baseball game footage to extract:
-- Scoreboard information (teams, scores, inning, count)
-- Player identification (jersey numbers, positions)
-- Key plays (hits, strikeouts, fielding actions)
-Provide detailed, structured analysis of baseball videos.''',
+    'agent_name': 'sports-video-analyzer',
+    'description': 'Analyzes sports videos to extract game insights',
+    'instruction': '''You are a sports video analysis assistant. You help users analyze sports game footage to extract:
+- Scoreboard information (teams, scores, time/period, game state)
+- Player identification (jersey numbers, positions, names)
+- Key plays (goals, assists, shots, passes, defensive actions, scoring plays)
+- Game statistics and highlights
+You can analyze videos from various sports including soccer, basketball, football, hockey, and more.
+Provide detailed, structured analysis of sports videos.''',
     'foundation_model': 'anthropic.claude-3-sonnet-20240229-v1:0',
     'idle_session_ttl': 600
 }

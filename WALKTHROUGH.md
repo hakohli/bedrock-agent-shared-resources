@@ -83,7 +83,7 @@ python deploy_agent.py
 
 Expected output:
 ```
-Creating agent: baseball-video-analyzer
+Creating agent: sports-video-analyzer
 Using execution role: arn:aws:iam::YOUR_ACCOUNT_ID:role/BedrockAgentExecutionRole
 Using S3 bucket: company-bedrock-agents
 

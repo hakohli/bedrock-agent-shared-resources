@@ -131,9 +131,9 @@ echo "   ✓ Developer policy ready"
 echo ""
 echo "5. Creating S3 folder structure"
 aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/ --content-length 0
-aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/baseball-video-analyzer/ --content-length 0
-aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/baseball-video-analyzer/videos/ --content-length 0
-aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/baseball-video-analyzer/artifacts/ --content-length 0
+aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/sports-video-analyzer/ --content-length 0
+aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/sports-video-analyzer/videos/ --content-length 0
+aws s3api put-object --bucket "$S3_BUCKET_NAME" --key agents/sports-video-analyzer/artifacts/ --content-length 0
 
 echo "   ✓ S3 folders created"
 

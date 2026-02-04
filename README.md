@@ -276,7 +276,7 @@ Edit `agent_config.py` to customize your agent:
 
 ```python
 AGENT_CONFIG = {
-    'agent_name': 'baseball-video-analyzer',  # Change this
+    'agent_name': 'sports-video-analyzer',  # Change this
     'description': 'Your agent description',
     'instruction': '''Your agent instructions here''',
     'foundation_model': 'anthropic.claude-3-sonnet-20240229-v1:0',
@@ -308,7 +308,7 @@ python3 deploy_agent.py
 Bedrock Agent Deployment Demo
 Using Existing ECR and S3 Resources
 ============================================================
-Creating agent: baseball-video-analyzer
+Creating agent: sports-video-analyzer
 Using execution role: arn:aws:iam::YOUR_ACCOUNT_ID:role/BedrockAgentExecutionRole
 Using S3 bucket: company-bedrock-agents
 
@@ -334,7 +334,7 @@ The `deployment_info.json` file contains:
 {
   "agent_id": "R9ORLA8SGF",
   "alias_id": "5DRROVGWEI",
-  "agent_name": "baseball-video-analyzer",
+  "agent_name": "sports-video-analyzer",
   "region": "us-east-1",
   "account_id": "YOUR_ACCOUNT_ID",
   "s3_bucket": "company-bedrock-agents"
@@ -366,15 +366,15 @@ Bedrock Agent Test
 
 Agent ID: R9ORLA8SGF
 Alias ID: 5DRROVGWEI
-Agent Name: baseball-video-analyzer
+Agent Name: sports-video-analyzer
 
 ============================================================
 Test 1/3
 ============================================================
 
-Invoking agent with prompt: What kind of information can you extract from baseball videos?
+Invoking agent with prompt: What kind of information can you extract from sports videos?
 ------------------------------------------------------------
-From baseball video footage, I can extract the following information:
+From sports video footage, I can extract the following information:
 
 - Scoreboard information such as the teams playing, current scores, inning, and ball/strike count
 - Player identification including jersey numbers and positions on the field
@@ -560,7 +560,7 @@ Each agent gets isolated prefix:
 ```
 s3://company-bedrock-agents/
   └── agents/
-      ├── baseball-video-analyzer/
+      ├── sports-video-analyzer/
       │   ├── videos/
       │   └── artifacts/
       └── customer-support-agent/

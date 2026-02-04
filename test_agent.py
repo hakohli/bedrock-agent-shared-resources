@@ -66,8 +66,8 @@ def main():
     
     # Test prompts
     test_prompts = [
-        "What kind of information can you extract from baseball videos?",
-        "Analyze a baseball video at s3://company-bedrock-agents/agents/baseball-video-analyzer/videos/sample.mp4",
+        "What kind of information can you extract from sports videos?",
+        "Analyze a sports video at s3://company-bedrock-agents/agents/sports-video-analyzer/videos/sample.mp4",
         "What scoreboard information do you look for?"
     ]
     

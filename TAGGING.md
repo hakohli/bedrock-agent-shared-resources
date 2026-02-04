@@ -10,7 +10,7 @@ All resources in this demo are tagged with `auto-delete: no` to prevent automati
 | S3 Bucket | company-bedrock-agents | auto-delete | no |
 | IAM Role | BedrockAgentExecutionRole | auto-delete | no |
 | IAM Policy | BedrockAgentDeveloperPolicy | auto-delete | no |
-| Bedrock Agent | baseball-video-analyzer | auto-delete | no |
+| Bedrock Agent | sports-video-analyzer | auto-delete | no |
 
 ## Automatic Tagging
 
@@ -39,7 +39,7 @@ aws iam create-policy \
 
 # Bedrock Agent (in deploy_agent.py)
 bedrock.create_agent(
-    agentName='baseball-video-analyzer',
+    agentName='sports-video-analyzer',
     tags={'auto-delete': 'no'}
 )
 ```
