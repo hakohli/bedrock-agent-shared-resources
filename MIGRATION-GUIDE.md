@@ -260,7 +260,7 @@ aws s3 ls s3://company-bedrock-agents/
 
 ## Support
 
-- **Demo files**: `/Users/hakohli/bedrock-agent-demo/`
+- **Demo files**: `/path/to/bedrock-agent-demo/`
 - **Full README**: `README.md`
 - **Tagging guide**: `TAGGING.md`
 - **Test script**: `python3 verify_permissions.py`
