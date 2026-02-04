@@ -22,6 +22,57 @@ Convert your Bedrock agent deployment to use existing ECR repository and S3 buck
 
 ---
 
+## Step 0: Verify IAM Permissions (CRITICAL)
+
+Before starting, verify you have the correct permissions and restrictions:
+
+### Check Your Permissions
+
+```bash
+# Run the verification script
+python3 verify_permissions.py
+```
+
+**Expected Results**:
+- ✅ **PASS: BEDROCK** - Can create/update/delete agents
+- ✅ **PASS: S3** - Can read/write to existing bucket
+- ✅ **PASS: ECR** - Can push/pull from existing repository
+- ✅ **PASS: IAM** - Can pass BedrockAgentExecutionRole
+- ✅ **PASS: DENIED** - CANNOT create new S3 buckets or ECR repositories
+
+### What You SHOULD Have
+
+```json
+{
+  "Allowed": [
+    "bedrock:CreateAgent",
+    "bedrock:UpdateAgent",
+    "bedrock:DeleteAgent",
+    "s3:GetObject",
+    "s3:PutObject",
+    "ecr:PutImage",
+    "ecr:BatchGetImage",
+    "iam:PassRole"
+  ]
+}
+```
+
+### What You SHOULD NOT Have
+
+```json
+{
+  "Denied": [
+    "ecr:CreateRepository",
+    "s3:CreateBucket",
+    "s3:PutBucketPolicy"
+  ]
+}
+```
+
+**⚠️ IMPORTANT**: If you can create S3 buckets or ECR repositories, you have too many permissions. Contact your infrastructure team to apply the restrictive `BedrockAgentDeveloperPolicy`.
+
+---
+
 ## Changes Required
 
 ### 1. Update Agent Configuration
@@ -117,6 +168,15 @@ image_uri = f'{AWS_ACCOUNT_ID}.dkr.ecr.{AWS_REGION}.amazonaws.com/{ecr_repo}:{ag
 python3 verify_permissions.py
 ```
 Expected: All checks pass ✓
+
+**⚠️ CRITICAL CHECK**: The verification should show:
+- ✅ Can create Bedrock agents
+- ✅ Can access existing S3 bucket
+- ✅ Can access existing ECR repository
+- ✅ CANNOT create new S3 buckets (denied)
+- ✅ CANNOT create new ECR repositories (denied)
+
+If you can create buckets/repositories, you have admin access. In production, the `BedrockAgentDeveloperPolicy` will properly restrict these permissions.
 
 ### Step 2: Update Your Deployment Script
 

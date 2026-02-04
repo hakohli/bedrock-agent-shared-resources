@@ -22,6 +22,66 @@ This guide shows how to configure existing agents to use shared infrastructure u
 
 ---
 
+## Step 0: Verify IAM Permissions (CRITICAL)
+
+Before starting, verify you have the correct permissions and restrictions.
+
+### Check Your Current Permissions
+
+1. Go to **IAM Console**: https://console.aws.amazon.com/iam/
+2. Click **Users** → Select your username
+3. Click **Permissions** tab
+4. Verify `BedrockAgentDeveloperPolicy` is attached
+
+### Test Permission Boundaries
+
+**Test 1: Try to Create S3 Bucket (Should FAIL)**
+1. Go to **S3 Console**: https://console.aws.amazon.com/s3/
+2. Click **Create bucket**
+3. Enter a test name: `test-should-fail-bucket`
+4. Click **Create bucket**
+5. **Expected Result**: ❌ Access Denied error
+
+**Test 2: Try to Create ECR Repository (Should FAIL)**
+1. Go to **ECR Console**: https://console.aws.amazon.com/ecr/
+2. Click **Create repository**
+3. Enter a test name: `test-should-fail-repo`
+4. Click **Create repository**
+5. **Expected Result**: ❌ Access Denied error
+
+**Test 3: Access Existing S3 Bucket (Should SUCCEED)**
+1. Go to **S3 Console**
+2. Click on bucket: `company-bedrock-agents`
+3. **Expected Result**: ✅ You can view contents
+
+**Test 4: Access Existing ECR Repository (Should SUCCEED)**
+1. Go to **ECR Console**
+2. Click on repository: `bedrock-agents`
+3. **Expected Result**: ✅ You can view repository details
+
+### What You SHOULD Have
+
+| Permission | Status | Purpose |
+|------------|--------|---------|
+| `bedrock:CreateAgent` | ✅ Allowed | Create new agents |
+| `bedrock:UpdateAgent` | ✅ Allowed | Update agents |
+| `s3:GetObject` | ✅ Allowed | Read from shared bucket |
+| `s3:PutObject` | ✅ Allowed | Write to shared bucket |
+| `ecr:PutImage` | ✅ Allowed | Push to shared repository |
+| `iam:PassRole` | ✅ Allowed | Use execution role |
+
+### What You SHOULD NOT Have
+
+| Permission | Status | Why Denied |
+|------------|--------|------------|
+| `ecr:CreateRepository` | ❌ Denied | Prevents creating new ECR repos |
+| `s3:CreateBucket` | ❌ Denied | Prevents creating new S3 buckets |
+| `s3:PutBucketPolicy` | ❌ Denied | Prevents modifying bucket policies |
+
+**⚠️ IMPORTANT**: If you can create S3 buckets or ECR repositories, you have too many permissions (likely admin access). Contact your infrastructure team to apply the restrictive `BedrockAgentDeveloperPolicy`.
+
+---
+
 ## Part 1: Infrastructure Setup (One-Time)
 
 ### Step 1: Create ECR Repository
@@ -299,6 +359,14 @@ aws bedrock-agent-runtime invoke-agent \
 
 Use the console to verify:
 
+- [ ] **IAM Permissions Verified**
+  - Go to IAM Console → Users → Your user → Permissions
+  - Verify `BedrockAgentDeveloperPolicy` is attached
+  - Test: CANNOT create new S3 buckets (Access Denied)
+  - Test: CANNOT create new ECR repositories (Access Denied)
+  - Test: CAN access existing `company-bedrock-agents` bucket
+  - Test: CAN access existing `bedrock-agents` ECR repository
+
 - [ ] **ECR Repository exists**
   - Go to ECR Console → Check `bedrock-agents` exists
   
@@ -314,6 +382,7 @@ Use the console to verify:
 - [ ] **IAM Policy created**
   - Go to IAM Console → Policies → Check `BedrockAgentDeveloperPolicy`
   - Verify policy attached to your user/group
+  - Verify policy DENIES `ecr:CreateRepository` and `s3:CreateBucket`
   
 - [ ] **Agent created and prepared**
   - Go to Bedrock Console → Agents → Check your agent
