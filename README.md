@@ -136,7 +136,7 @@ aws sts get-caller-identity
 ### Step 1: Clone or Download Demo Files
 
 ```bash
-git clone https://github.com/hakohli/bedrock-agent-shared-resources.git
+git clone https://github.com/YOUR_USERNAME/bedrock-agent-shared-resources.git
 cd bedrock-agent-shared-resources
 ```
 
