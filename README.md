@@ -1,6 +1,49 @@
 # Bedrock Agent Demo - Using Existing Resources
 
-Complete guide for deploying Amazon Bedrock agents using pre-approved ECR repositories and shared S3 buckets with fine-grained IAM controls.
+Complete guide for deploying Amazon Bedrock agents using pre-approved ECR repositories and S3 buckets with fine-grained IAM controls.
+
+## Two Deployment Approaches
+
+This repository provides two approaches for deploying Bedrock agents with shared infrastructure:
+
+### 1. Shared S3 + Shared ECR (Root Folder)
+**Use Case**: Cost-effective, centralized data management
+
+- ✅ One shared S3 bucket for all agents
+- ✅ One shared ECR repository
+- ✅ Prefix-based data isolation
+- ✅ Cannot create new S3 buckets or ECR repositories
+- ✅ Lowest cost, simplest management
+
+**[View Documentation](./)**
+
+### 2. New S3 Per Agent + Shared ECR ([new-s3-existing-ecr/](./new-s3-existing-ecr/))
+**Use Case**: Strong data isolation requirements
+
+- ✅ Dedicated S3 bucket per agent
+- ✅ One shared ECR repository
+- ✅ Bucket-level data isolation
+- ✅ Can create S3 buckets (with naming pattern)
+- ✅ Cannot create ECR repositories
+
+**[View Documentation](./new-s3-existing-ecr/)**
+
+---
+
+## Quick Comparison
+
+| Feature | Shared S3 (Root) | New S3 Per Agent |
+|---------|------------------|------------------|
+| **S3 Buckets** | 1 shared | 1 per agent |
+| **ECR Repository** | 1 shared | 1 shared |
+| **Can Create S3** | ❌ No | ✅ Yes (pattern) |
+| **Can Create ECR** | ❌ No | ❌ No |
+| **Data Isolation** | Prefix-based | Bucket-level |
+| **Cost** | Lower | Higher |
+| **Management** | Simpler | More buckets |
+| **Use Case** | General purpose | Strong isolation |
+
+---
 
 ## Table of Contents
 
