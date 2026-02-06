@@ -65,6 +65,70 @@ aws iam get-role --role-name BedrockAgentExecutionRole
 
 ---
 
+## IAM Role Policies (EXISTING)
+
+The **EXISTING** `BedrockAgentExecutionRole` already has the following policies configured:
+
+### 1. S3 Access Policy (Inline Policy: `S3Access`)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:ListBucket"
+    ],
+    "Resource": [
+      "arn:aws:s3:::company-bedrock-agents",
+      "arn:aws:s3:::company-bedrock-agents/*"
+    ]
+  }]
+}
+```
+
+**What this allows**:
+- Read files from `company-bedrock-agents` bucket
+- Write files to `company-bedrock-agents` bucket
+- List contents of `company-bedrock-agents` bucket
+
+### 2. Bedrock Access Policy (AWS Managed: `AmazonBedrockFullAccess`)
+
+This AWS managed policy includes:
+- Bedrock agent operations
+- Model invocations
+- ECR access for Bedrock agents (implicit)
+
+**What this allows**:
+- Agent can invoke foundation models
+- Agent can access ECR repository: `bedrock-agents`
+- Agent can perform all Bedrock operations
+
+### 3. ECR Access (Included in AmazonBedrockFullAccess)
+
+The `AmazonBedrockFullAccess` policy includes permissions to:
+- Pull container images from ECR
+- Access the `bedrock-agents` repository
+- Describe ECR repositories
+
+**Verify policies**:
+```bash
+# View S3 access policy
+aws iam get-role-policy \
+  --role-name BedrockAgentExecutionRole \
+  --policy-name S3Access
+
+# List attached policies
+aws iam list-attached-role-policies \
+  --role-name BedrockAgentExecutionRole
+```
+
+**Important**: When you migrate your agent to use `BedrockAgentExecutionRole`, it automatically inherits all these permissions. No additional policy configuration is needed.
+
+---
+
 ## Migration Steps - CLI Method
 
 ### Step 1: Get Current Agent Configuration
