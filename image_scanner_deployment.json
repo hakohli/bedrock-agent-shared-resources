@@ -1,0 +1,10 @@
+{
+  "agent_id": "WZUYEWNXOQ",
+  "alias_id": "XU53CEH1R1",
+  "agent_name": "image-scanner-agent",
+  "region": "us-east-1",
+  "account_id": "395102750341",
+  "s3_bucket": "company-bedrock-agents",
+  "s3_images_path": "s3://company-bedrock-agents/agents/image-scanner-agent/images",
+  "s3_output_path": "s3://company-bedrock-agents/agents/image-scanner-agent/output"
+}

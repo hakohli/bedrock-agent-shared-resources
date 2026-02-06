@@ -1,0 +1,10 @@
+{
+  "agent_id": "DJURJO4ZCL",
+  "agent_name": "perfectgames-agent",
+  "old_role": "arn:aws:iam::395102750341:role/service-role/AmazonBedrockExecutionRoleForAgents_SHH74LGG38R",
+  "new_role": "arn:aws:iam::395102750341:role/BedrockAgentExecutionRole",
+  "shared_s3_bucket": "company-bedrock-agents",
+  "s3_prefix": "agents/perfectgames-agent/",
+  "shared_ecr_repo": "bedrock-agents",
+  "migration_date": "2026-02-05"
+}
