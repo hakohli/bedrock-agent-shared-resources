@@ -1,12 +1,14 @@
-# Migrating Existing Agent to Shared S3 and ECR
+# Migrating Existing Agent to EXISTING Shared S3 and ECR
 
-**Complete guide with CLI and Console steps for migrating an existing Bedrock agent to use shared resources**
+**Complete guide for migrating an existing Bedrock agent to use EXISTING shared S3 bucket and EXISTING shared ECR repository**
 
 ---
 
 ## Overview
 
-This document shows how to migrate an existing Bedrock agent (e.g., `perfectgames-agent`) from using its own dedicated resources to using shared S3 bucket and ECR repository.
+This document shows how to migrate an existing Bedrock agent (e.g., `perfectgames-agent`) from using its own dedicated resources to using **EXISTING shared S3 bucket** and **EXISTING shared ECR repository**.
+
+**Key Point**: This migration uses resources that ALREADY EXIST. No new S3 buckets or ECR repositories are created.
 
 **Example Agent**: `perfectgames-agent` (ID: DJURJO4ZCL)  
 **Account**: 395102750341  
@@ -19,9 +21,9 @@ This document shows how to migrate an existing Bedrock agent (e.g., `perfectgame
 **Current State**:
 - Agent Name: `perfectgames-agent`
 - Agent ID: `DJURJO4ZCL`
-- IAM Role: `AmazonBedrockExecutionRoleForAgents_SHH74LGG38R` (agent-specific)
-- S3: No structured storage
-- ECR: No container images
+- IAM Role: `AmazonBedrockExecutionRoleForAgents_SHH74LGG38R` (agent-specific, will be replaced)
+- S3: No structured storage (will use EXISTING shared bucket)
+- ECR: No container images (will use EXISTING shared repository)
 - Status: PREPARED
 
 ---
@@ -31,19 +33,35 @@ This document shows how to migrate an existing Bedrock agent (e.g., `perfectgame
 **Target State**:
 - Same Agent Name: `perfectgames-agent`
 - Same Agent ID: `DJURJO4ZCL`
-- IAM Role: `BedrockAgentExecutionRole` (shared)
-- S3: `company-bedrock-agents/agents/perfectgames-agent/` (shared bucket)
-- ECR: `bedrock-agents` (shared repository)
+- IAM Role: `BedrockAgentExecutionRole` (EXISTING shared role)
+- S3: `company-bedrock-agents/agents/perfectgames-agent/` (EXISTING shared bucket)
+- ECR: `bedrock-agents` (EXISTING shared repository)
 - Status: PREPARED
+
+**Important**: All target resources ALREADY EXIST. We are NOT creating new resources.
 
 ---
 
 ## Prerequisites
 
-✅ Existing shared S3 bucket: `company-bedrock-agents`  
-✅ Existing shared ECR repository: `bedrock-agents`  
-✅ Existing shared IAM role: `BedrockAgentExecutionRole`  
+✅ **EXISTING** shared S3 bucket: `company-bedrock-agents` (already created)  
+✅ **EXISTING** shared ECR repository: `bedrock-agents` (already created)  
+✅ **EXISTING** shared IAM role: `BedrockAgentExecutionRole` (already created)  
 ✅ Agent to migrate: `perfectgames-agent`
+
+**Verify existing resources**:
+```bash
+# Verify EXISTING S3 bucket
+aws s3 ls s3://company-bedrock-agents/
+
+# Verify EXISTING ECR repository
+aws ecr describe-repositories --repository-names bedrock-agents --region us-east-1
+
+# Verify EXISTING IAM role
+aws iam get-role --role-name BedrockAgentExecutionRole
+```
+
+**All these resources must ALREADY EXIST before migration.**
 
 ---
 
@@ -74,10 +92,12 @@ Status: PREPARED
 
 ---
 
-### Step 2: Create S3 Folders in Shared Bucket
+### Step 2: Create S3 Folders in EXISTING Shared Bucket
+
+**Important**: We are creating folders INSIDE the EXISTING `company-bedrock-agents` bucket. We are NOT creating a new bucket.
 
 ```bash
-# Create folder structure for the agent
+# Create folder structure for the agent in EXISTING bucket
 aws s3api put-object \
   --bucket company-bedrock-agents \
   --key agents/perfectgames-agent/
@@ -90,6 +110,8 @@ aws s3api put-object \
   --bucket company-bedrock-agents \
   --key agents/perfectgames-agent/output/
 ```
+
+**Note**: The bucket `company-bedrock-agents` ALREADY EXISTS. We are only creating folders inside it.
 
 **Verify**:
 ```bash
@@ -104,10 +126,12 @@ aws s3 ls s3://company-bedrock-agents/agents/perfectgames-agent/
 
 ---
 
-### Step 3: Update Agent to Use Shared IAM Role
+### Step 3: Update Agent to Use EXISTING Shared IAM Role
+
+**Important**: We are updating the agent to use the EXISTING `BedrockAgentExecutionRole`. This role ALREADY EXISTS and is shared by other agents.
 
 ```bash
-# Update agent configuration
+# Update agent configuration to use EXISTING shared role
 aws bedrock-agent update-agent \
   --agent-id DJURJO4ZCL \
   --agent-name perfectgames-agent \
@@ -116,6 +140,8 @@ aws bedrock-agent update-agent \
   --instruction "Agent for perfect games analysis" \
   --region us-east-1
 ```
+
+**Note**: The role `BedrockAgentExecutionRole` ALREADY EXISTS. We are NOT creating a new role.
 
 **Expected Output**:
 ```json
@@ -238,11 +264,13 @@ EOF
 
 ---
 
-### Step 2: Create S3 Folders in Shared Bucket
+### Step 2: Create S3 Folders in EXISTING Shared Bucket
+
+**Important**: We are creating folders INSIDE the EXISTING `company-bedrock-agents` bucket. We are NOT creating a new bucket.
 
 1. Go to **S3 Console**: https://console.aws.amazon.com/s3/
-2. Click on bucket: `company-bedrock-agents`
-3. Navigate to `agents/` folder
+2. Click on **EXISTING** bucket: `company-bedrock-agents`
+3. Navigate to `agents/` folder (already exists)
 4. Click **Create folder**
    - Folder name: `perfectgames-agent`
    - Click **Create folder**
@@ -254,6 +282,8 @@ EOF
    - Folder name: `output`
    - Click **Create folder**
 
+**Note**: The bucket `company-bedrock-agents` ALREADY EXISTS. We are only creating folders inside it.
+
 **Verify**: You should see:
 ```
 agents/perfectgames-agent/data/
@@ -262,13 +292,17 @@ agents/perfectgames-agent/output/
 
 ---
 
-### Step 3: Update Agent to Use Shared IAM Role
+### Step 3: Update Agent to Use EXISTING Shared IAM Role
+
+**Important**: We are updating the agent to use the EXISTING `BedrockAgentExecutionRole`. This role ALREADY EXISTS and is shared by other agents.
 
 1. Go to **Bedrock Console** → **Agents**
 2. Click on `perfectgames-agent`
 3. Click **Edit** in Agent details section
-4. **Service role**: Change dropdown to `BedrockAgentExecutionRole`
+4. **Service role**: Change dropdown to `BedrockAgentExecutionRole` (EXISTING role)
 5. Click **Save and exit**
+
+**Note**: The role `BedrockAgentExecutionRole` ALREADY EXISTS in the dropdown. We are NOT creating a new role.
 
 **Expected**: Success message appears
 
@@ -545,15 +579,23 @@ aws logs tail /aws/bedrock/agents/DJURJO4ZCL --follow
 
 **Migration Completed**:
 - ✅ Agent: `perfectgames-agent` (DJURJO4ZCL)
-- ✅ Now using shared IAM role: `BedrockAgentExecutionRole`
-- ✅ Now using shared S3: `company-bedrock-agents`
-- ✅ Now using shared ECR: `bedrock-agents`
+- ✅ Now using **EXISTING** shared IAM role: `BedrockAgentExecutionRole`
+- ✅ Now using **EXISTING** shared S3: `company-bedrock-agents`
+- ✅ Now using **EXISTING** shared ECR: `bedrock-agents`
 - ✅ Agent tested and working
 - ✅ Old role can be deleted after 7 days
 
+**Key Point**: NO new resources were created. Agent now uses EXISTING shared resources.
+
+**Resources Used**:
+- EXISTING S3 Bucket: `company-bedrock-agents` (created before migration)
+- EXISTING ECR Repository: `bedrock-agents` (created before migration)
+- EXISTING IAM Role: `BedrockAgentExecutionRole` (created before migration)
+
 **Time Taken**: ~10 minutes  
 **Downtime**: None  
-**Rollback Available**: Yes
+**Rollback Available**: Yes  
+**New Resources Created**: 0 (only folders in existing S3 bucket)
 
 ---
 
