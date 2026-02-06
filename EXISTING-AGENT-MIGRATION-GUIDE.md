@@ -99,19 +99,34 @@ The **EXISTING** `BedrockAgentExecutionRole` already has the following policies 
 This AWS managed policy includes:
 - Bedrock agent operations
 - Model invocations
-- ECR access for Bedrock agents (implicit)
 
 **What this allows**:
 - Agent can invoke foundation models
-- Agent can access ECR repository: `bedrock-agents`
 - Agent can perform all Bedrock operations
 
-### 3. ECR Access (Included in AmazonBedrockFullAccess)
+### 3. ECR Access Policy (Inline Policy: `ECRAccess`)
 
-The `AmazonBedrockFullAccess` policy includes permissions to:
-- Pull container images from ECR
-- Access the `bedrock-agents` repository
-- Describe ECR repositories
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchGetImage",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchCheckLayerAvailability"
+    ],
+    "Resource": "*"
+  }]
+}
+```
+
+**What this allows**:
+- Authenticate with ECR registry
+- Pull container images from `bedrock-agents` repository
+- Download image layers
+- Check if layers exist in repository
 
 **Verify policies**:
 ```bash
@@ -120,8 +135,17 @@ aws iam get-role-policy \
   --role-name BedrockAgentExecutionRole \
   --policy-name S3Access
 
+# View ECR access policy
+aws iam get-role-policy \
+  --role-name BedrockAgentExecutionRole \
+  --policy-name ECRAccess
+
 # List attached policies
 aws iam list-attached-role-policies \
+  --role-name BedrockAgentExecutionRole
+
+# List all inline policies
+aws iam list-role-policies \
   --role-name BedrockAgentExecutionRole
 ```
 
